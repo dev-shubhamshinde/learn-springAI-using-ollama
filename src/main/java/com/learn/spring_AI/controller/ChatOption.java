@@ -41,6 +41,30 @@ public class ChatOption {
             .withTopK(1)
             .build();
 
+    /**
+     * ChatOptions with a frequency penalty. This discourages the model from repeating the same token.
+     * A higher value increases the penalty.
+     */
+    private final ChatOptions chatOptionsWithFrequencyPenalty = ChatOptionsBuilder.builder()
+            .withFrequencyPenalty(0.5)
+            .build();
+
+    /**
+     * ChatOptions with a presence penalty. This discourages the model from introducing new topics.
+     * A higher value increases the penalty.
+     */
+    private final ChatOptions chatOptionsWithPresencePenalty = ChatOptionsBuilder.builder()
+            .withPresencePenalty(0.5)
+            .build();
+
+    /**
+     * ChatOptions with Top-P (nucleus) sampling. The model considers tokens from a cumulative probability mass.
+     * A Top-P of 0.9 means the model will only consider the tokens that make up the top 90% of the probability mass.
+     */
+    private final ChatOptions chatOptionsWithTopP = ChatOptionsBuilder.builder()
+            .withTopP(0.9)
+            .build();
+
     @GetMapping("chat-options-maxtoken")
     public String chatOptions(@RequestParam("message") String message) {
         return chatClient.prompt(message)
@@ -61,6 +85,30 @@ public class ChatOption {
     public String chatOptionsWithTopK(@RequestParam("message") String message) {
         return chatClient.prompt(message)
                 .options(chatOptionsWithTopK)
+                .call()
+                .content();
+    }
+
+    @GetMapping("chat-options-frequencypenalty")
+    public String chatOptionsWithFrequencyPenalty(@RequestParam("message") String message) {
+        return chatClient.prompt(message)
+                .options(chatOptionsWithFrequencyPenalty)
+                .call()
+                .content();
+    }
+
+    @GetMapping("chat-options-presencepenalty")
+    public String chatOptionsWithPresencePenalty(@RequestParam("message") String message) {
+        return chatClient.prompt(message)
+                .options(chatOptionsWithPresencePenalty)
+                .call()
+                .content();
+    }
+
+    @GetMapping("chat-options-topp")
+    public String chatOptionsWithTopP(@RequestParam("message") String message) {
+        return chatClient.prompt(message)
+                .options(chatOptionsWithTopP)
                 .call()
                 .content();
     }
