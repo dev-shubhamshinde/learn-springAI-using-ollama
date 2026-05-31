@@ -2,7 +2,6 @@ package com.learn.spring_AI.controller;
 
 import org.springframework.ai.chat.client.ChatClient;
 import org.springframework.ai.chat.prompt.ChatOptions;
-import org.springframework.ai.chat.prompt.ChatOptionsBuilder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -21,48 +20,48 @@ public class ChatOption {
      * ChatOptions with a limit on the number of tokens (words) in the response.
      * This forces the AI to provide a concise answer.
      */
-    private final ChatOptions chatOptionsWithMaxTokens = ChatOptionsBuilder.builder()
-            .withMaxTokens(10)
+    private final ChatOptions chatOptionsWithMaxTokens = ChatOptions.builder()
+            .maxTokens(10)
             .build();
 
     /**
      * ChatOptions with a higher temperature to make the response more creative and less deterministic.
      * A higher temperature (e.g., 0.9) results in more diverse responses, while a lower value makes it more focused.
      */
-    private final ChatOptions chatOptionsWithTemperature = ChatOptionsBuilder.builder()
-            .withTemperature(0.9)
+    private final ChatOptions chatOptionsWithTemperature = ChatOptions.builder()
+            .temperature(0.9)
             .build();
 
     /**
      * ChatOptions with Top-K sampling. The model will only consider the top K most likely tokens at each step.
      * A Top-K of 1 means the model will always choose the most likely next token (greedy decoding).
      */
-    private final ChatOptions chatOptionsWithTopK = ChatOptionsBuilder.builder()
-            .withTopK(1)
+    private final ChatOptions chatOptionsWithTopK = ChatOptions.builder()
+            .topK(1)
             .build();
 
     /**
      * ChatOptions with a frequency penalty. This discourages the model from repeating the same token.
      * A higher value increases the penalty.
      */
-    private final ChatOptions chatOptionsWithFrequencyPenalty = ChatOptionsBuilder.builder()
-            .withFrequencyPenalty(0.5)
+    private final ChatOptions chatOptionsWithFrequencyPenalty = ChatOptions.builder()
+            .frequencyPenalty(0.5)
             .build();
 
     /**
      * ChatOptions with a presence penalty. This discourages the model from introducing new topics.
      * A higher value increases the penalty.
      */
-    private final ChatOptions chatOptionsWithPresencePenalty = ChatOptionsBuilder.builder()
-            .withPresencePenalty(0.5)
+    private final ChatOptions chatOptionsWithPresencePenalty = ChatOptions.builder()
+            .presencePenalty(0.5)
             .build();
 
     /**
      * ChatOptions with Top-P (nucleus) sampling. The model considers tokens from a cumulative probability mass.
      * A Top-P of 0.9 means the model will only consider the tokens that make up the top 90% of the probability mass.
      */
-    private final ChatOptions chatOptionsWithTopP = ChatOptionsBuilder.builder()
-            .withTopP(0.9)
+    private final ChatOptions chatOptionsWithTopP = ChatOptions.builder()
+            .topP(0.9)
             .build();
 
     @GetMapping("chat-options-maxtoken")
