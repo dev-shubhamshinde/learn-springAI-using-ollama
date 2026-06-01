@@ -42,10 +42,10 @@ public class RAGController {
 
         List<Document> similarDocs = vectorStore.similaritySearch(searchRequest);
 
-        // ✅ Guard: if nothing found, return default message immediately
-//        if (similarDocs == null || similarDocs.isEmpty()) {
-//            return ResponseEntity.ok("I don't know");
-//        }
+//         ✅ Guard: if nothing found, return default message immediately
+        if (similarDocs == null || similarDocs.isEmpty()) {
+            return ResponseEntity.ok("I don't know");
+        }
 
         String similarContext = similarDocs.stream()
                 .map(Document::getText)
