@@ -4,6 +4,7 @@ import org.springframework.ai.chat.client.ChatClient;
 import org.springframework.ai.document.Document;
 import org.springframework.ai.vectorstore.SearchRequest;
 import org.springframework.ai.vectorstore.VectorStore;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.Resource;
 import org.springframework.http.ResponseEntity;
@@ -20,11 +21,13 @@ public class RAGController {
 
     private final ChatClient chatClient;
     private final VectorStore vectorStore;
+    private final ChatClient webSearchchatClient;
 
-    // ✅ Inject the pre-configured ChatClient bean, not the builder
-    public RAGController(ChatClient chatClient, VectorStore vectorStore) {
+    public RAGController(ChatClient chatClient, VectorStore vectorStore, 
+                         @Qualifier("webSearchRAGChatClient") ChatClient webSearchchatClient) {
         this.chatClient = chatClient;
         this.vectorStore = vectorStore;
+        this.webSearchchatClient = webSearchchatClient;
     }
 
     @Value("classpath:/promptTemplates/systemPromptRandomDataTemplate.st")
@@ -101,5 +104,15 @@ public class RAGController {
         return ResponseEntity.ok(answer);
     }
 
+    @GetMapping("/web-search/chat")
+    public ResponseEntity<String> webSearchChat(@RequestHeader("username")
+                                                String username,
+                                                @RequestParam("message") String message) {
+        String answer = webSearchchatClient.prompt()
+                .advisors(a -> a.param(CONVERSATION_ID, username))
+                .user(message)
+                .call().content();
+        return ResponseEntity.ok(answer);
+    }
 
 }
