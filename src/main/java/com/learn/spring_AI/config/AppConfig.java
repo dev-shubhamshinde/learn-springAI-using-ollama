@@ -1,5 +1,6 @@
 package com.learn.spring_AI.config;
 
+import com.learn.spring_AI.RAG.PIIMaskingDocumentPostProcessor;
 import org.springframework.ai.chat.memory.ChatMemory;
 import org.springframework.ai.chat.memory.ChatMemoryRepository;
 import org.springframework.ai.chat.memory.InMemoryChatMemoryRepository;
@@ -53,6 +54,7 @@ public class AppConfig {
                 .queryTransformers(TranslationQueryTransformer.builder().chatClientBuilder(builder.clone()).targetLanguage("English").build())
                 .documentRetriever(VectorStoreDocumentRetriever.builder().vectorStore(vectorStore)
                         .topK(3).similarityThreshold(0.5).build())
+                .documentPostProcessors(PIIMaskingDocumentPostProcessor.builder())
                 .build();
     }
 }
