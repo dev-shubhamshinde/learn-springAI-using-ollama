@@ -13,6 +13,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import static org.springframework.ai.chat.memory.ChatMemory.CONVERSATION_ID;
+
 @RestController
 @RequestMapping("/rag/api")
 public class RAGController {
@@ -37,27 +38,27 @@ public class RAGController {
             @RequestHeader("username") String username,
             @RequestParam("message") String message) {
 
-        SearchRequest searchRequest = SearchRequest.builder()
-                .query(message)
-                .topK(3)
-                .similarityThreshold(0.5)
-                .build();
-
-        List<Document> similarDocs = vectorStore.similaritySearch(searchRequest);
-
-//         ✅ Guard: if nothing found, return default message immediately
-        if (similarDocs == null || similarDocs.isEmpty()) {
-            return ResponseEntity.ok("I don't know");
-        }
-
-        String similarContext = similarDocs.stream()
-                .map(Document::getText)
-                .collect(Collectors.joining(System.lineSeparator()));
+//        SearchRequest searchRequest = SearchRequest.builder()
+//                .query(message)
+//                .topK(3)
+//                .similarityThreshold(0.5)
+//                .build();
+//
+//        List<Document> similarDocs = vectorStore.similaritySearch(searchRequest);
+//
+////         ✅ Guard: if nothing found, return default message immediately
+//        if (similarDocs == null || similarDocs.isEmpty()) {
+//            return ResponseEntity.ok("I don't know");
+//        }
+//
+//        String similarContext = similarDocs.stream()
+//                .map(Document::getText)
+//                .collect(Collectors.joining(System.lineSeparator()));
 
         String answer = chatClient.prompt()
-                .system(spec -> spec
-                        .text(promptTemplateForDocument)
-                        .param("documents", similarContext))
+//                .system(spec -> spec
+//                        .text(promptTemplateForDocument)
+//                        .param("documents", similarContext))
                 .advisors(a -> a.param(CONVERSATION_ID, username)) // ✅ now works, advisor is registered
                 .user(message)
                 .call()
@@ -71,27 +72,27 @@ public class RAGController {
             @RequestHeader("username") String username,
             @RequestParam("message") String message) {
 
-        SearchRequest searchRequest = SearchRequest.builder()
-                .query(message)
-                .topK(3)
-                .similarityThreshold(0.5)
-                .build();
-
-        List<Document> similarDocs = vectorStore.similaritySearch(searchRequest);
-
-//         ✅ Guard: if nothing found, return default message immediately
-        if (similarDocs == null || similarDocs.isEmpty()) {
-            return ResponseEntity.ok("I don't know");
-        }
-
-        String similarContext = similarDocs.stream()
-                .map(Document::getText)
-                .collect(Collectors.joining(System.lineSeparator()));
+//        SearchRequest searchRequest = SearchRequest.builder()
+//                .query(message)
+//                .topK(3)
+//                .similarityThreshold(0.5)
+//                .build();
+//
+//        List<Document> similarDocs = vectorStore.similaritySearch(searchRequest);
+//
+////         ✅ Guard: if nothing found, return default message immediately
+//        if (similarDocs == null || similarDocs.isEmpty()) {
+//            return ResponseEntity.ok("I don't know");
+//        }
+//
+//        String similarContext = similarDocs.stream()
+//                .map(Document::getText)
+//                .collect(Collectors.joining(System.lineSeparator()));
 
         String answer = chatClient.prompt()
-                .system(spec -> spec
-                        .text(promptTemplate)
-                        .param("documents", similarContext))
+//                .system(spec -> spec
+//                        .text(promptTemplate)
+//                        .param("documents", similarContext))
                 .advisors(a -> a.param(CONVERSATION_ID, username)) // ✅ now works, advisor is registered
                 .user(message)
                 .call()
