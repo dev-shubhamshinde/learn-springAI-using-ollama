@@ -1,4 +1,4 @@
-package com.learn.spring_AI.RAG.config;
+package com.learn.spring_AI.RAG;
 
 import jakarta.annotation.PostConstruct;
 import org.springframework.ai.document.Document;

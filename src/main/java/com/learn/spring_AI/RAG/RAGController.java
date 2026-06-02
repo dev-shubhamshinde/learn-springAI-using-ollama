@@ -1,4 +1,4 @@
-package com.learn.spring_AI.RAG.config;
+package com.learn.spring_AI.RAG;
 
 import org.springframework.ai.chat.client.ChatClient;
 import org.springframework.ai.document.Document;
